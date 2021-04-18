@@ -45,10 +45,28 @@ const createContract = async (req, res) => {
     });
     return res.json({ contract: contract });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ error: "failed to create contract" });
   }
 };
+
+const cancelContract = async (req, res) => {
+  const { contractId, endDate } = req.body;
+  try {
+    const contract = await prisma.contracts.update({
+      where: { id: Number(contractId) },
+      data: {
+        ending_date: endDate + "T00:00:00.000Z",
+      },
+    });
+    return res.json(contract);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "failed to update contract" });
+  }
+};
+
 module.exports = {
   getContracts,
   createContract,
+  cancelContract,
 };

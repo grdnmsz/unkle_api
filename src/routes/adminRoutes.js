@@ -8,6 +8,9 @@ const adminRoutes = (app) => {
   app.post("/admin/create", authMiddlewares.adminOnly, (req, res) => {
     adminControllers.createContract(req, res);
   });
+  app.put("/admin/contract/", authMiddlewares.adminOnly, (req, res) => {
+    adminControllers.cancelContract(req, res);
+  });
 };
 
 module.exports = adminRoutes;
