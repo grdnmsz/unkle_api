@@ -1,8 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+/*
+ * Gets all the contracts belonging to a client, identified by its unique email
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
+ */
 const getContracts = async (req, res) => {
-  const { email } = req.body;
+  const {
+    client: { email },
+  } = req.body;
   try {
     const contracts = await prisma.users
       .findUnique({ where: { email: email } })
@@ -13,11 +21,24 @@ const getContracts = async (req, res) => {
   }
 };
 
+/*
+ * Cancels a contract's client (email required), by setting up the ending date
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
+ */
 const cancelContract = async (req, res) => {
-  const { contractId, endDate, email } = req.body;
-  // todo control date
+  const {
+    contract: { contractId, endDate },
+    client: { email },
+  } = req.body;
+  const now = new Date();
+
+  if (endDate < now)
+    return res.status(400).json({ error: "ending date has passed" });
+
   try {
-    const update = await prisma.users.update({
+    await prisma.users.update({
       where: { email: email },
       data: {
         contracts: {
@@ -33,19 +54,10 @@ const cancelContract = async (req, res) => {
     return res.json({ message: "contract updated" });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "failed to update contract" });
   }
 };
 module.exports = {
   getContracts,
   cancelContract,
 };
-
-/*
-data: {
-        contracts: {
-          set: { id: contractId },
-          connectOrCreate: { ending_date: endDate + "T00:00:00.000Z" },
-        },
-      },
-
-      */

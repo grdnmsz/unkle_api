@@ -3,18 +3,28 @@ const prisma = new PrismaClient();
 const { allClientsInDB, allOptionsInDB } = require("../utils");
 
 /*
- * Get all the contracts in the database
+ * Getsall the contracts in the database
  * Filtering the data is up to client-side
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
  */
 const getContracts = async (req, res) => {
   try {
     const allContracts = await prisma.contracts.findMany();
     return res.json(allContracts);
-  } catch (err) {
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ err: "failed to fet contracts" });
   }
 };
 
+/*
+ * Creates a contract in database
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
+ */
 const createContract = async (req, res) => {
   const {
     contract: { startDate, endDate, options, clients },
@@ -49,9 +59,21 @@ const createContract = async (req, res) => {
   }
 };
 
+/*
+ * Cancels a contract by setting up the ending date
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
+ */
 const cancelContract = async (req, res) => {
-  const { contractId, endDate } = req.body;
-  // todo control date
+  const {
+    contract: { contractId, endDate },
+  } = req.body;
+  const now = new Date();
+
+  if (endDate < now)
+    return res.status(400).json({ error: "ending date has passed" });
+
   try {
     const contract = await prisma.contracts.update({
       where: { id: contractId },
@@ -60,13 +82,44 @@ const cancelContract = async (req, res) => {
       },
     });
     return res.json(contract);
-  } catch (err) {
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "failed to update contract" });
   }
 };
 
+/*
+ * Creates a new option in the database
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @returns {httpResponse}
+ */
+const createOption = async (req, res) => {
+  const {
+    option: { name, description },
+  } = req.body;
+
+  if (!name || !description)
+    return res
+      .status(400)
+      .json({ error: "both name and description are required" });
+
+  try {
+    const option = await prisma.options.create({
+      data: {
+        name: name,
+        description: description,
+      },
+    });
+    return res.json(option);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "failed to create new option " });
+  }
+};
 module.exports = {
   getContracts,
   createContract,
   cancelContract,
+  createOption,
 };

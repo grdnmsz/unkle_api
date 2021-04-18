@@ -5,9 +5,15 @@ const adminRoutes = (app) => {
   app.get("/admin/contracts/", authMiddlewares.adminOnly, (req, res) => {
     adminControllers.getContracts(req, res);
   });
+
   app.post("/admin/create", authMiddlewares.adminOnly, (req, res) => {
     adminControllers.createContract(req, res);
   });
+
+  app.post("/admin/option", authMiddlewares.adminOnly, (req, res) => {
+    adminControllers.createOption(req, res);
+  });
+
   app.put("/admin/contract/", authMiddlewares.adminOnly, (req, res) => {
     // update ending date
     adminControllers.cancelContract(req, res);

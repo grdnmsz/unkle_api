@@ -7,11 +7,15 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 /*
- * authentificate a user (client or admin)
- * and grant access
+ * Authentificates a user (client or admin) and grants access
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @params {nextFunction} next
  */
 const authUser = async (req, res, next) => {
-  const { email, password } = req.body;
+  const {
+    user: { email, password },
+  } = req.body;
   const user = await prisma.users.findUnique({ where: { email: email } });
   if (user === []) {
     // user exist ?
@@ -24,10 +28,15 @@ const authUser = async (req, res, next) => {
 };
 
 /*
- * grant access for admins only
+ * Grants access for admins only
+ * @params {httpRequest} req
+ * @params {httpResponse} res
+ * @params {nextFunction} next
  */
 const adminOnly = async (req, res, next) => {
-  const { email, password } = req.body;
+  const {
+    user: { email, password },
+  } = req.body;
   const user = await prisma.users.findUnique({ where: { email: email } });
   if (user?.password !== password || user?.role !== "ADMIN")
     return res.status(403).json("forbidden");
