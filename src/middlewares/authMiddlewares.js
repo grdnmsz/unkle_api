@@ -1,5 +1,5 @@
 /*
- * this is a basic authentification and authorization 
+ * this is a basic authentification and authorization
  * system, with user and role verification, splitted in two handlers
  */
 
@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 
 /*
  * authentificate a user (client or admin)
+ * and grant access
  */
 const authUser = async (req, res, next) => {
   const { email, password } = req.body;
