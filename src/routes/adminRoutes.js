@@ -9,6 +9,7 @@ const adminRoutes = (app) => {
     adminControllers.createContract(req, res);
   });
   app.put("/admin/contract/", authMiddlewares.adminOnly, (req, res) => {
+    // update ending date
     adminControllers.cancelContract(req, res);
   });
 };

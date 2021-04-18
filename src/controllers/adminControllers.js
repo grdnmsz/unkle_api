@@ -19,7 +19,7 @@ const createContract = async (req, res) => {
   const {
     contract: { startDate, endDate, options, clients },
   } = req.body;
-
+  // todo control date
   if (clients === [] || options === [] || !startDate)
     return res
       .status(501)
@@ -51,16 +51,16 @@ const createContract = async (req, res) => {
 
 const cancelContract = async (req, res) => {
   const { contractId, endDate } = req.body;
+  // todo control date
   try {
     const contract = await prisma.contracts.update({
-      where: { id: Number(contractId) },
+      where: { id: contractId },
       data: {
         ending_date: endDate + "T00:00:00.000Z",
       },
     });
     return res.json(contract);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ error: "failed to update contract" });
   }
 };
