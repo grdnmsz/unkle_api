@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Roles
+enum Role {
+  CLIENT
+  ADMIN
+}
+
+// Contract status
+enum StatusType {
+  PENDING
+  ACTIVE
+  FINISHED
+}
+
+// Models
+model Options {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  description String
+  contracts   Contracts[]
+}
+
+model Contracts {
+  id            Int        @id @default(autoincrement())
+  starting_date DateTime
+  ending_date   DateTime?
+  status        StatusType @default(PENDING)
+  clients       Users[]
+  options       Options[]
+}
+
+model Users {
+  id        Int         @id @default(autoincrement())
+  role      Role        @default(CLIENT)
+  name      String
+  email     String      @unique
+  password  String
+  contracts Contracts[]
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
