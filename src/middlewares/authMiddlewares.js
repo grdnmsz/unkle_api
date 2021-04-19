@@ -16,6 +16,11 @@ const authUser = async (req, res, next) => {
   const {
     user: { email, password },
   } = req.body;
+
+  if (!email || !password) {
+    return res.status(401).json("user doesn't exist or wrong password");
+  }
+
   const user = await prisma.users.findUnique({ where: { email: email } });
   if (user === []) {
     // user exist ?
@@ -37,6 +42,11 @@ const adminOnly = async (req, res, next) => {
   const {
     user: { email, password },
   } = req.body;
+
+  if (!email || !password) {
+    return res.status(401).json("user doesn't exist or wrong password");
+  }
+  
   const user = await prisma.users.findUnique({ where: { email: email } });
   if (user?.password !== password || user?.role !== "ADMIN")
     return res.status(403).json("forbidden");

@@ -48,7 +48,7 @@ const createContract = async (req, res) => {
     const contract = await prisma.contracts.create({
       data: {
         starting_date: startDate + "T00:00:00.000Z",
-        ending_date: endDate,
+        ending_date: endDate ? endDate + "T00:00:00.000Z" : null,
         clients: { connect: clients },
         options: { connect: options },
       },
