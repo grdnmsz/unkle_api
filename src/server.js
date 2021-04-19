@@ -19,6 +19,10 @@ cron.schedule(
   { timezone: "Europe/Paris" }
 );
 
+app.get("/", (req, res) => { // test route
+  res.json("It's working !");
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
