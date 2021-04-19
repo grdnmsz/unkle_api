@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const { allClientsInDB, allOptionsInDB } = require("../utils");
 
 /*
- * Getsall the contracts in the database
+ * Gets all the contracts in the database
  * Filtering the data is up to client-side
  * @params {httpRequest} req
  * @params {httpResponse} res
