@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
  */
 const getContracts = async (req, res) => {
   const {
-    client: { email },
+    user: { email },
   } = req.body;
   try {
     const contracts = await prisma.users
@@ -17,7 +17,7 @@ const getContracts = async (req, res) => {
       .contracts();
     return res.json(contracts);
   } catch (err) {
-    return res.status(500).json({ err: "failed to fet contracts" });
+    return res.status(500).json({ err: "failed to fetch contracts" });
   }
 };
 
@@ -30,7 +30,7 @@ const getContracts = async (req, res) => {
 const cancelContract = async (req, res) => {
   const {
     contract: { contractId, endDate },
-    client: { email },
+    user: { email },
   } = req.body;
   const now = new Date();
 

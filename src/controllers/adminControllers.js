@@ -15,7 +15,7 @@ const getContracts = async (req, res) => {
     return res.json(allContracts);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ err: "failed to fet contracts" });
+    return res.status(500).json({ err: "failed to fetch contracts" });
   }
 };
 

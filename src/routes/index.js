@@ -2,7 +2,9 @@ const registerRoute = (app) => {
   const { PrismaClient } = require("@prisma/client");
   const prisma = new PrismaClient();
   app.post("/user/register", async (req, res) => {
-    const { name, email, password, role } = req.body;
+    const {
+      user: { name, email, password, role },
+    } = req.body;
     try {
       const result = await prisma.users.create({
         data: {
@@ -13,9 +15,9 @@ const registerRoute = (app) => {
         },
       });
       return res.json(result);
-    } catch (errorMessage) {
-      console.log(errorMessage);
-      return res.status(500).json({ err: errorMessage });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ err: "failed to create new user" });
     }
   });
 };
