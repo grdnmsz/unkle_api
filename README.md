@@ -1,4 +1,4 @@
-# API Test - Unkle
+## API Test - Unkle
 
 This API is a development state, it can be improved and hopefully I would happy to talk about it!
 You will find in this README instructions for setting up the API.
@@ -27,3 +27,12 @@ Type the following in your terminal:
 ```
 
 That's it! You're all set. For further information about the API itself, please go [there](https://documenter.getpostman.com/view/13245077/TzJsfxoZ)
+
+### License
+This project is under 0BSD, feel free to use and share it!
+
+### Tech and frameworks used
+- [Docker](https://www.docker.com/), an open platform for developing, shipping, and running applications
+- [Prisma](https://www.prisma.io/), a new kind of ORM for Node.js and Typescript
+- [Express](https://expressjs.com/) a fast unopinionated, minimalist web framework for Node.js
+- [PostgreSQL](https://www.postgresql.org/), an open source relational database
