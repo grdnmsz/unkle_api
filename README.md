@@ -1,6 +1,6 @@
 # API Test - Unkle
 
-This API is a development state, it can be improved and hopefully we will be exchanging about it!
+This API is a development state, it can be improved and hopefully I would happy to talk about it!
 You will find in this README instructions for setting up the API.
 
 ### Requirements
