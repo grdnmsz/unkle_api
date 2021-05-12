@@ -11,7 +11,7 @@ Both Docker and docker-compose have to be installed on your local machine.
 ```
 git clone https://github.com/grdnmsz/unkle_api.git
 ```
-- Build, fetch and run docker images (postgres and this nodejs server):
+- Build, fetch and run docker containers (postgres and this nodejs server):
 ```
 docker-compose up -d
 ```
